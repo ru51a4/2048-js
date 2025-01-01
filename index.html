@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048</title>
+    <link rel="preload" href="./ClearSans-Bold-webfont.woff" as="font" crossorigin="">
+</head>
+
+<body>
+    <div class="main">
+
+    </div>
+
+</body>
+<style>
+    .cell {
+        width: 97.5px;
+        height: 97.5px;
+        border: 1px solid black;
+        margin: 0 4px 4px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 53px;
+        line-height: 98px;
+        border-radius: 3px;
+        background: rgba(238, 228, 218, 0.35);
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 40px;
+        position: relative;
+        padding: 12px;
+        cursor: default;
+        -webkit-touch-callout: none;
+        -ms-touch-callout: none;
+        -ms-touch-action: none;
+        touch-action: none;
+        background: #bbada0;
+        border-radius: 6px;
+        width: 465px;
+        height: 465px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+    }
+
+    .row {
+        margin-bottom: 12px;
+        display: flex;
+    }
+</style>
+<script>
+    let main = document.querySelector(".main");
+    let pole = [
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+    ]
+    let getRand = () => {
+        let r = [];
+        for (let i = 0; i <= 3; i++) {
+            for (let j = 0; j <= 3; j++) {
+                if (!pole[i][j]) {
+                    r.push({ i, j })
+                }
+            }
+        }
+        if (!r.length) {
+            throw 'game over';
+        }
+        return r[Math.floor(Math.random() * r.length)]
+    }
+    let render = () => {
+        try {
+            let { i, j } = getRand();
+            pole[i][j] = 2;
+        } catch (e) {
+            main.innerHTML = '<h4>game over</h4>'
+            return;
+        }
+        let html = ``;
+        for (let i = 0; i <= 3; i++) {
+            html += `<div class="row">`
+            for (let j = 0; j <= 3; j++) {
+                html += `<div class="cell">${!pole[i][j] ? '' : pole[i][j]}</div>`
+            }
+            html += `</div>`
+        }
+        main.innerHTML = html;
+    }
+    render();
+    let emit = (key) => {
+        let up = () => {
+            let f = true
+            while (f) {
+                f = false
+                for (let i = 3; i >= 1; i--) {
+                    for (let j = 0; j <= 3; j++) {
+                        if (!pole[i - 1][j] && pole[i][j]) {
+                            pole[i - 1][j] = pole[i][j]
+                            pole[i][j] = null;
+                            f = true
+                        } else if (pole[i - 1][j] === pole[i][j]) {
+                            pole[i - 1][j] += pole[i][j] ?? null;
+                            pole[i][j] = null;
+                        }
+                    }
+                }
+            }
+            render();
+        }
+        let down = () => {
+            let f = true
+            while (f) {
+                f = false
+                for (let i = 2; i >= 0; i--) {
+                    for (let j = 0; j <= 3; j++) {
+                        if (!pole[i + 1][j] && pole[i][j]) {
+                            pole[i + 1][j] = pole[i][j]
+                            pole[i][j] = null;
+                            f = true
+                        } else if (pole[i + 1][j] === pole[i][j]) {
+                            pole[i + 1][j] += pole[i][j] ?? null;
+                            pole[i][j] = null;
+                        }
+                    }
+                }
+            }
+            render();
+        }
+        let left = () => {
+            let f = true
+            while (f) {
+                f = false
+                for (let i = 0; i <= 3; i++) {
+                    for (let j = 3; j >= 1; j--) {
+                        if (!pole[i][j - 1] && pole[i][j]) {
+                            pole[i][j - 1] = pole[i][j]
+                            pole[i][j] = null;
+                            f = true
+                        } else if (pole[i][j - 1] === pole[i][j]) {
+                            pole[i][j - 1] += pole[i][j] ?? null;
+                            pole[i][j] = null;
+                        }
+                    }
+                }
+            }
+            render();
+        }
+        let right = () => {
+            let f = true
+            while (f) {
+                f = false
+                for (let i = 0; i <= 3; i++) {
+                    for (let j = 2; j >= 0; j--) {
+                        if (!pole[i][j + 1] && pole[i][j]) {
+                            pole[i][j + 1] = pole[i][j]
+                            pole[i][j] = null;
+                            f = true
+                        } else if (pole[i][j + 1] === pole[i][j]) {
+                            pole[i][j + 1] += pole[i][j] ?? null;
+                            pole[i][j] = null;
+                        }
+                    }
+                }
+            }
+            render();
+        }
+        switch (key) {
+            case "ArrowDown":
+                down();
+                break;
+            case "ArrowUp":
+                up();
+                break;
+            case "ArrowLeft":
+                left();
+                break;
+            case "ArrowRight":
+                right();
+                break;
+        }
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+            const keyName = event.key;
+            emit(keyName)
+        },
+        false,
+    );
+
+</script>
+
+</html>
