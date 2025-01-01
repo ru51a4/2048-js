@@ -27,6 +27,7 @@
         line-height: 98px;
         border-radius: 3px;
         background: rgba(238, 228, 218, 0.35);
+
     }
 
     body {
@@ -112,15 +113,15 @@
             let f = true
             while (f) {
                 f = false
-                for (let i = 3; i >= 1; i--) {
+                for (let i = 0; i <= 2; i++) {
                     for (let j = 0; j <= 3; j++) {
-                        if (!pole[i - 1][j] && pole[i][j]) {
-                            pole[i - 1][j] = pole[i][j]
-                            pole[i][j] = null;
+                        if (!pole[i][j] && pole[i + 1][j]) {
+                            pole[i][j] = pole[i + 1][j]
+                            pole[i + 1][j] = null;
                             f = true
-                        } else if (pole[i - 1][j] === pole[i][j]) {
-                            pole[i - 1][j] += pole[i][j] ?? null;
-                            pole[i][j] = null;
+                        } else if (pole[i][j] === pole[i + 1][j]) {
+                            pole[i][j] += pole[i + 1][j] ?? null;
+                            pole[i + 1][j] = null;
                         }
                     }
                 }
@@ -151,14 +152,14 @@
             while (f) {
                 f = false
                 for (let i = 0; i <= 3; i++) {
-                    for (let j = 3; j >= 1; j--) {
-                        if (!pole[i][j - 1] && pole[i][j]) {
-                            pole[i][j - 1] = pole[i][j]
-                            pole[i][j] = null;
+                    for (let j = 0; j <= 2; j++) {
+                        if (!pole[i][j] && pole[i][j + 1]) {
+                            pole[i][j] = pole[i][j + 1]
+                            pole[i][j + 1] = null;
                             f = true
-                        } else if (pole[i][j - 1] === pole[i][j]) {
-                            pole[i][j - 1] += pole[i][j] ?? null;
-                            pole[i][j] = null;
+                        } else if (pole[i][j] === pole[i][j + 1]) {
+                            pole[i][j] += pole[i][j + 1] ?? null;
+                            pole[i][j + 1] = null;
                         }
                     }
                 }
