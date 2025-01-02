@@ -95,27 +95,11 @@
             pole[i][j] = 2;
         } catch (e) {
             let t = JSON.parse(JSON.stringify(pole))
-            try {
-                emit('ArrowDown', true)
-            }
-            catch (e) {
-                try {
-                    emit('ArrowUp', true)
-                }
-                catch (e) {
-                    try {
-                        emit('ArrowLeft', true)
-                    }
-                    catch (e) {
-                        try {
-                            emit('ArrowRight', true)
-                        }
-                        catch (e) {
+            emit('ArrowDown', true)
+            emit('ArrowUp', true)
+            emit('ArrowLeft', true)
+            emit('ArrowRight', true)
 
-                        }
-                    }
-                }
-            }
             if (JSON.stringify(t) === JSON.stringify(pole)) {
                 main.innerHTML = '<h4>game over</h4>'
                 return;
