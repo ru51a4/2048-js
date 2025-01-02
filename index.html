@@ -94,8 +94,34 @@
             let { i, j } = getRand();
             pole[i][j] = 2;
         } catch (e) {
-            main.innerHTML = '<h4>game over</h4>'
-            return;
+            let t = JSON.parse(JSON.stringify(pole))
+            try {
+                emit('ArrowDown')
+            }
+            catch (e) {
+                try {
+                    emit('ArrowUp')
+                }
+                catch (e) {
+                    try {
+                        emit('ArrowLeft')
+                    }
+                    catch (e) {
+                        try {
+                            emit('ArrowRight')
+                        }
+                        catch (e) {
+
+                        }
+                    }
+                }
+            }
+            if (JSON.stringify(t) === JSON.stringify(pole)) {
+                main.innerHTML = '<h4>game over</h4>'
+                return;
+            } else {
+                pole = t;
+            }
         }
         let html = ``;
         for (let i = 0; i <= 3; i++) {
