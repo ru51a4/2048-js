@@ -96,19 +96,19 @@
         } catch (e) {
             let t = JSON.parse(JSON.stringify(pole))
             try {
-                emit('ArrowDown')
+                emit('ArrowDown', true)
             }
             catch (e) {
                 try {
-                    emit('ArrowUp')
+                    emit('ArrowUp', true)
                 }
                 catch (e) {
                     try {
-                        emit('ArrowLeft')
+                        emit('ArrowLeft', true)
                     }
                     catch (e) {
                         try {
-                            emit('ArrowRight')
+                            emit('ArrowRight', true)
                         }
                         catch (e) {
 
@@ -134,7 +134,7 @@
         main.innerHTML = html;
     }
     render();
-    let emit = (key) => {
+    let emit = (key, check = false) => {
         let up = () => {
             let f = true
             while (f) {
@@ -152,7 +152,9 @@
                     }
                 }
             }
-            render();
+            if (!check) {
+                render();
+            }
         }
         let down = () => {
             let f = true
@@ -171,7 +173,9 @@
                     }
                 }
             }
-            render();
+            if (!check) {
+                render();
+            }
         }
         let left = () => {
             let f = true
@@ -190,7 +194,9 @@
                     }
                 }
             }
-            render();
+            if (!check) {
+                render();
+            }
         }
         let right = () => {
             let f = true
@@ -209,7 +215,9 @@
                     }
                 }
             }
-            render();
+            if (!check) {
+                render();
+            }
         }
         switch (key) {
             case "ArrowDown":
